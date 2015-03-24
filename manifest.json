@@ -1,0 +1,37 @@
+{
+  "manifest_version": 2,
+  "name": "VK - автосохранение картинок",
+  "description": "Автосохранение картинок из лайкнутых постов социальной сети vk.com в облачные сервисы",
+  "version": "0.1.0",
+  "icons": {
+    "16": "images/icons/16.png",
+    "48": "images/icons/48.png",
+    "128": "images/icons/128.png"
+  },
+  "options_page": "templates/options.html",
+  "permissions": [
+    "storage",
+    "http://*.vk.me/*"
+  ],
+  "page_action": {
+   "default_title": "VK - автосохранение картинок / Необходима авторизация",
+   "default_icon": "images/icons/16-notif.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://vk.com/*"],
+      "js": [
+        "config/secrets.js",
+        "javascripts/vendor/dropbox-0.10.2.min.js",
+        "javascripts/content.js"
+      ]
+    }
+  ],
+  "background": {
+    "scripts": ["javascripts/event.js"],
+    "persistent": false
+  },
+  "web_accessible_resources": [
+    "templates/oauth/dropbox.html"
+  ]
+}

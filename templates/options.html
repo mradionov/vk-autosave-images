@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>VK - автосохранение картинок / Настройки</title>
+  <link rel="stylesheet" href="../stylesheets/style.css">
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <img src="../images/icons/48.png">
+      <div class="title">"VK - автосохранение картинок" / Настройки</div>
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="menu">
+      <ul>
+        <li class="menu-item active" data-target="dropbox">
+          Dropbox
+        </li>
+      </ul>
+    </div>
+
+    <div class="content">
+
+      <div class="messages"></div>
+
+      <div class="loading">Загрузка...</div>
+
+      <div class="tab active" data-tab="dropbox">
+
+        <div class="unlinked hidden">
+          <p>
+            Подключите Dropbox аккаунт для сохранения картинок.
+          </p>
+          <p>
+            Картинки будут сохраняться в папку для приложений,
+            подпапку <strong>"vk-autosave-images"</strong>.
+          </p>
+
+          <div class="clear sep"></div>
+
+          <button class="link">Подключить</button>
+        </div>
+
+        <div class="linked hidden">
+          <p>
+            Dropbox аккаунт <strong>подключен</strong>.
+          </p>
+          <p>
+            При лайке постов новостной ленты (общей, групп, друзей, своей) картинки будут сохраняться в Dropbox в папке для приложений,
+            подпапку <strong>"vk-autosave-images"</strong>.
+          </p>
+          <p>
+            <strong>Обновите</strong> открытые страницы vk, чтобы расширение заработало.
+          </p>
+          <p>
+            Если находясь на страницах vk адресной строке вы увидите
+            <strong>"сердечко"</strong>
+            (<a href="http://i.imgur.com/4p5DDRV.png" target="_blank">пример</a>), это значит что необходимо авторизироваться заново,
+            иначе картинки не будут сохраняться.
+            Для этого надо перейти в настройки расширения
+            (можно кликнуть на "сердечко").
+          </p>
+
+          <div class="clear sep"></div>
+
+          <button class="unlink">Отключить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="../config/secrets.js"></script>
+  <script src="../javascripts/vendor/dropbox-0.10.2.min.js"></script>
+  <script src="../javascripts/options.js"></script>
+</body>
+</html>
