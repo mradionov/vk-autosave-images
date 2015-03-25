@@ -28,6 +28,10 @@ a, a:visited, a:active {
   color: #CA2828;
 }
 
+input[type="checkbox"] {
+  vertical-align: top;
+}
+
 .hidden {
   display: none !important;
 }
@@ -40,17 +44,17 @@ a, a:visited, a:active {
   height: 20px;
 }
 
-.container {
+#container {
   width: 800px;
   margin: auto;
   margin-top: 5px;
 }
 
-.header {
+#header {
   height: 35px;
 }
 
-.header .title {
+#header .title {
   font-weight: bold;
   font-size: 15px;
   margin-top: 5px;
@@ -58,31 +62,31 @@ a, a:visited, a:active {
   margin-right: 15px;
 }
 
-.header img {
+#header img {
   float: right;
   width: 30px;
 }
 
-.menu {
+#menu {
   width: 150px;
   float: left;
 }
 
-.menu ul {
+#menu ul {
   list-style: none;
 }
 
-.menu ul li {
+#menu ul li {
   padding: 10px;
   cursor: pointer;
 }
 
-.menu ul li.active {
+#menu ul li.active {
   background-color: #597DA3;
   color: #FFFFFF;
 }
 
-.content {
+#content {
   width: 608px;
   float: left;
   padding: 20px;
@@ -90,7 +94,7 @@ a, a:visited, a:active {
   border: 1px solid #D9E0E7;
 }
 
-.content .loading {
+#loading {
   text-align: center;
   margin-top: 20px;
 }
@@ -103,8 +107,18 @@ a, a:visited, a:active {
   display: block;
 }
 
-.return {
+#return {
   padding-top: 20px;
   text-align: center;
   border-top: 1px solid #D9E0E7;
+}
+
+#messages div {
+  margin-top: 10px;
+  padding: 5px;
+}
+
+#messages div.success {
+  border: 1px solid #008000;
+  color: #008000;
 }

@@ -6,28 +6,31 @@
   <link rel="stylesheet" href="../stylesheets/style.css">
 </head>
 <body>
-  <div class="container">
+  <div id="container">
 
-    <div class="header">
+    <div id="header">
       <img src="../images/icons/48.png">
       <div class="title">"VK - автосохранение картинок" / Настройки</div>
     </div>
 
     <div class="clear"></div>
 
-    <div class="menu">
+    <div id="menu">
       <ul>
         <li class="menu-item active" data-target="dropbox">
           Dropbox
         </li>
+        <li class="menu-item" data-target="general">
+          Общие
+        </li>
       </ul>
     </div>
 
-    <div class="content">
+    <div id="content">
 
-      <div class="messages"></div>
+      <div id="messages"></div>
 
-      <div class="loading">Загрузка...</div>
+      <div id="loading">Загрузка...</div>
 
       <div class="tab active" data-tab="dropbox">
 
@@ -69,6 +72,22 @@
 
           <button class="unlink">Отключить</button>
         </div>
+      </div>
+
+      <div class="tab" data-tab="general">
+        <div class="sep"></div>
+        <p>
+          <input type="checkbox" id="option-date-prefix">
+          <label for="option-date-prefix">
+            Добавлять дату сохранения к имени файла (позволит держать картинки в порядке их сохранения)
+          </label>
+        </p>
+        <p>
+          <input type="checkbox" id="option-group-by-author">
+          <label for="option-group-by-author">
+            Группировать по авторам (картинки будут сохраняться в подпапки с ID автора)
+          </label>
+        </p>
       </div>
     </div>
   </div>

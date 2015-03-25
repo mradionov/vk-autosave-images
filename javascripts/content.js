@@ -43,6 +43,28 @@ function retrieveImage(url, callback) {
   req.send();
 }
 
+function datetimeAsStr() {
+  var date = new Date();
+
+  // add leading zero if number is <10
+  function zero(n) {
+    if (n < 10) { return '0' + n; }
+    return n;
+  }
+
+  var str = [
+    date.getFullYear(),
+    zero(date.getMonth() + 1),
+    zero(date.getDate()),
+    zero(date.getHours()),
+    zero(date.getMinutes()),
+    zero(date.getSeconds()),
+    zero(Math.round(date.getMilliseconds() / 10, 2))
+  ].join('');
+
+  return str;
+}
+
 // parse a post for a passed button
 function likePost(el) {
 
@@ -67,6 +89,14 @@ function likePost(el) {
   // if there is a thumbs container, try to grab image links from it
   var links = thumbs.querySelectorAll('a.page_post_thumb_wrap');
   if (!links.length) { return handleError('a.page_post_thumb_wrap 0 length'); }
+
+  // get post author url slug
+  var authorSlug = '';
+  var authorLink = info.querySelector('.wall_text_name .author');
+  if (authorLink) {
+    // also remove leading /
+    authorSlug = authorLink.href.split('/').pop();
+  }
 
   // retrieve urls from image link
   var urls = [];
@@ -120,19 +150,41 @@ function likePost(el) {
     urls.push(url);
   }
 
-  // iterate all saved urls
-  urls.forEach(function (url) {
+  // grab user options
+  chrome.storage.sync.get({
+    // provide defaults
+    datePrefix: false,
+    groupByAuthor: false
+  }, function (options) {
 
-    // create filename for dropbox, it will be an actual vk filename
-    var filename = url.split('/').pop();
+    // get current datetime as a date prefix for filename
+    var datetime = datetimeAsStr();
 
-    // try grab an image
-    retrieveImage(url, function (error, arrayBuffer) {
-      if (error) { return handleError(error); }
+    // iterate all saved urls
+    urls.forEach(function (url, index) {
 
-      // try save an image
-      client.writeFile(filename, arrayBuffer, function(error, stat) {
+      // create filename for dropbox, it will be an actual vk filename
+      var filename = url.split('/').pop();
+
+      if (options.datePrefix) {
+        // along with date also add index of the file for the right ordering
+        filename = [datetime, index + 1, filename].join('-');
+      }
+
+      if (options.groupByAuthor) {
+        // write to subdirectory with author's name
+        filename = [authorSlug, filename].join('/');
+      }
+
+      // try grab an image
+      retrieveImage(url, function (error, arrayBuffer) {
         if (error) { return handleError(error); }
+
+        // try save an image
+        client.writeFile(filename, arrayBuffer, function(error, stat) {
+          if (error) { return handleError(error); }
+        });
+
       });
 
     });
