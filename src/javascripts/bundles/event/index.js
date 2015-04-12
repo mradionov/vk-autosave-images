@@ -1,6 +1,8 @@
+'use strict';
+
 // listen to content script, it will send a message when it is not able to
 // connect to dropbox, show notification then
-chrome.extension.onMessage.addListener(function (request, sender, sendResponse) {
+chrome.extension.onMessage.addListener(function (request, sender) {
   switch(request.action) {
   case 'showNotification':
     chrome.pageAction.show(sender.tab.id);

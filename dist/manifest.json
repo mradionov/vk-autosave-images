@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "VK - автосохранение картинок",
   "description": "Автосохранение картинок из лайкнутых постов социальной сети vk.com в облачные сервисы",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "icons": {
     "16": "images/icons/16.png",
     "48": "images/icons/48.png",
@@ -21,8 +21,7 @@
     {
       "matches": ["http://vk.com/*"],
       "js": [
-        "config/secrets.js",
-        "javascripts/vendor/dropbox-0.10.2.min.js",
+        "javascripts/vendor/dropbox.min.js",
         "javascripts/content.js"
       ]
     }

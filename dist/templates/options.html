@@ -15,6 +15,7 @@
 
     <div class="clear"></div>
 
+    <!-- menu for global tabs -->
     <div id="menu">
       <ul>
         <li class="menu-item active" data-target="dropbox">
@@ -26,15 +27,21 @@
       </ul>
     </div>
 
+    <!-- global tabs go here -->
     <div id="content">
 
       <div id="messages"></div>
+      
+      <!-- loader for global tabs -->
+      <div class="loading" data-tab="loading">Загрузка...</div>
 
-      <div id="loading">Загрузка...</div>
+      <!-- dropbox local tabs go here -->
+      <div class="tab" data-tab="dropbox">
 
-      <div class="tab active" data-tab="dropbox">
+        <!-- loader for dropbox local tab -->
+        <div class="loading" data-tab="loading">Загрузка...</div>
 
-        <div class="unlinked hidden">
+        <div class="unlinked" data-tab="unlinked">
           <p>
             Подключите Dropbox аккаунт для сохранения картинок.
           </p>
@@ -48,7 +55,7 @@
           <button class="link">Подключить</button>
         </div>
 
-        <div class="linked hidden">
+        <div class="linked" data-tab="linked">
           <p>
             Dropbox аккаунт <strong>подключен</strong>.
           </p>
@@ -72,6 +79,7 @@
 
           <button class="unlink">Отключить</button>
         </div>
+
       </div>
 
       <div class="tab" data-tab="general">
@@ -89,10 +97,11 @@
           </label>
         </p>
       </div>
+
     </div>
+
   </div>
-  <script src="../config/secrets.js"></script>
-  <script src="../javascripts/vendor/dropbox-0.10.2.min.js"></script>
+  <script src="../javascripts/vendor/dropbox.min.js"></script>
   <script src="../javascripts/options.js"></script>
 </body>
 </html>

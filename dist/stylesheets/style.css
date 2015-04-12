@@ -94,16 +94,16 @@ input[type="checkbox"] {
   border: 1px solid #D9E0E7;
 }
 
-#loading {
+[data-tab] {
+  display: none;
+}
+
+.loading {
   text-align: center;
   margin-top: 20px;
 }
 
-.tab {
-  display: none;
-}
-
-.tab.active {
+.active {
   display: block;
 }
 
