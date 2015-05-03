@@ -8,7 +8,8 @@ var secrets = require('../../config/secrets'),
 
 var views = [
   require('./feed'),
-  require('./popup')
+  require('./photo'),
+  require('./post')
 ];
 
 // create dropbox client

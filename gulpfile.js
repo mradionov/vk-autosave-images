@@ -16,7 +16,7 @@ gulp.task('clean', function () {
 });
 
 // copy vendors
-gulp.task('vendor', function () {
+gulp.task('vendor', ['clean'], function () {
   return gulp.src('./src/javascripts/vendor/*')
     .pipe(gulp.dest('./dist/javascripts/vendor'));
 });

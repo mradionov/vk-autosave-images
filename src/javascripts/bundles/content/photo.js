@@ -12,7 +12,7 @@ var dom = require('../../helpers/dom'),
 
 var Observer = window.MutationObserver || window.WebKitMutationObserver;
 
-function PopupView(saveCallback) {
+function PhotoView(saveCallback) {
   this.saveCallback = saveCallback;
   this.initialize();
 
@@ -20,7 +20,7 @@ function PopupView(saveCallback) {
   this.liked = false;
 }
 
-PopupView.prototype.initialize = function () {
+PhotoView.prototype.initialize = function () {
   // click on like button
   document.addEventListener('click', this.onLike.bind(this));
 
@@ -29,7 +29,7 @@ PopupView.prototype.initialize = function () {
 
 // start observing one of the top containers
 // to detect if photoview was opened
-PopupView.prototype.observeLayer = function () {
+PhotoView.prototype.observeLayer = function () {
   var layer = document.querySelector('#layer_wrap');
   if (!layer) { return handleError('#layer_wrap not found'); }
 
@@ -82,7 +82,7 @@ PopupView.prototype.observeLayer = function () {
   }
 };
 
-PopupView.prototype.onLayerMutation = function (mutations) {
+PhotoView.prototype.onLayerMutation = function (mutations) {
   if (mutations.length < 0) {
     return true;
   }
@@ -107,7 +107,7 @@ PopupView.prototype.onLayerMutation = function (mutations) {
   });
 };
 
-PopupView.prototype.onWideMutation = function (mutations) {
+PhotoView.prototype.onWideMutation = function (mutations) {
   if (mutations.length < 0) { return handleError('No any mutations'); }
 
   var target = mutations[0].target;
@@ -117,7 +117,7 @@ PopupView.prototype.onWideMutation = function (mutations) {
   this.liked = (icon.style.opacity == 1);
 };
 
-PopupView.prototype.onLike = function (e) {
+PhotoView.prototype.onLike = function (e) {
   // because click handler is attached to document
   // check element id, detect if it was a photo like button
   var pattern = /\bpv_like.*?\b/;
@@ -142,7 +142,7 @@ PopupView.prototype.onLike = function (e) {
   this.like(el);
 };
 
-PopupView.prototype.like = function (el) {
+PhotoView.prototype.like = function (el) {
   // hope that value for "liked" was already retrieved by observers
   // here we should revert this value, when user likes something
   // and if it was liked before click - return, because we do not
@@ -174,4 +174,4 @@ PopupView.prototype.like = function (el) {
   });
 };
 
-module.exports = PopupView;
+module.exports = PhotoView;

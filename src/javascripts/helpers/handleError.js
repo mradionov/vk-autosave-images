@@ -1,7 +1,7 @@
 'use strict';
 
-var handleError = function(error) {
-  // console.error(error);
+var handleError = function (error) {
+  console.error(error);
   return false;
 };
 

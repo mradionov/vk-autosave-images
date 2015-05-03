@@ -3,7 +3,7 @@
 var request = {
 
   // xhr grab image by url
-  image: function(url, callback) {
+  image: function (url, callback) {
 
     var req = new XMLHttpRequest();
     req.open('GET', url, true);

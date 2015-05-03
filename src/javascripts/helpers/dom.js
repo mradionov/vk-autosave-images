@@ -2,33 +2,44 @@
 
 var dom = {
 
-  array: function(arraylike) {
+  array: function (arraylike) {
     return Array.prototype.slice.call(arraylike);
   },
 
-  // get closest by class name, id or tagname
-  closest: function(node, selector) {
-    do {
-      if ((selector[0] === '.' && node.classList.contains(selector.slice(1))) ||
-        (selector[0] === '#' && node.id === selector.slice(1)) ||
-        (node.tagName === selector.toUpperCase())
-      ) {
+  // "itself" - if true, will start from the element itself
+  //            and return it if it matches
+  closest: function (node, selector, itself) {
+    if (!itself || false) {
+      node = node.parentNode;
+    }
+    while(node) {
+      if (this.is(node, selector)) {
         return node;
       }
       node = node.parentNode;
-    } while (node);
+    }
     return null;
+  },
+
+  is: function (node, selector) {
+    if ((selector[0] === '.' && node.classList.contains(selector.slice(1))) ||
+      (selector[0] === '#' && node.id === selector.slice(1)) ||
+      (node.tagName === selector.toUpperCase())
+    ) {
+      return true;
+    }
+    return false;
   },
 
   addClass: function (nodes, className) {
     this.callClassList('add', nodes, className);
   },
 
-  removeClass: function(nodes, className) {
+  removeClass: function (nodes, className) {
     this.callClassList('remove', nodes, className);
   },
 
-  callClassList: function(method, nodes, className) {
+  callClassList: function (method, nodes, className) {
     if (!Array.isArray(nodes)) {
       nodes = [nodes];
     }
@@ -37,7 +48,17 @@ var dom = {
     }
   },
 
-  onKindaClick: function(delegate, clickCallback) {
+  delegate: function (node, eventName, selector, cb) {
+    var handler = function (e) {
+      if (!this.is(e.target, selector)) {
+        return true;
+      }
+      cb.bind(e.currentTarget)(e);
+    };
+    node.addEventListener(eventName, handler.bind(this));
+  },
+
+  onKindaClick: function (delegate, clickCallback) {
     // store mousedown'ed element
     var element = null;
 
