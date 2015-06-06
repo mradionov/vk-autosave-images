@@ -60,16 +60,6 @@ FeedView.prototype.like = function (el) {
   var info = dom.closest(el, '.post_info');
   if (!info) { return handleError('.post_info not found'); }
 
-  // try to find images container
-  // there are two of them, one is for another resolution or mobile version
-  // just take the first
-  var thumbs = info.querySelector('.page_post_sized_thumbs');
-  if (!thumbs) { return handleError('.page_post_sized_thumbs not found'); }
-
-  // if there is a thumbs container, try to grab image links from it
-  var links = thumbs.querySelectorAll('a.page_post_thumb_wrap');
-  if (!links.length) { return handleError('a.page_post_thumb_wrap 0 length'); }
-
   // get post author url slug
   var authorSlug = '';
   var authorLink = info.querySelector('.wall_text_name .author');
@@ -78,24 +68,48 @@ FeedView.prototype.like = function (el) {
     authorSlug = authorLink.href.split('/').pop();
   }
 
-  // retrieve urls from image link
-  var urls = [];
-  for (var i = 0, l = links.length; i < l; i++) {
-    var link = links[i];
+  var imageSources = this.parseImages(info);
+  var documentSources = this.parseDocuments(info);
 
-    var url = parse.linkOnClick(link);
-    if (!url) { continue; }
+  var sources = imageSources.concat(documentSources);
 
-    urls.push(url);
-  }
-
-  if (!urls.length) {
+  if (!sources.length) {
     return false;
   }
 
-  this.saveCallback(urls, {
+  this.saveCallback(sources, {
     authorSlug: authorSlug
   });
+};
+
+FeedView.prototype.parseImages = function (node) {
+  // try to find images container
+  // there are two of them, one is for another resolution or mobile version
+  // just take the first
+  var thumbs = node.querySelector('.page_post_sized_thumbs');
+  if (!thumbs) { return []; }
+
+  // if there is a thumbs container, try to grab image links from it
+  var links = thumbs.querySelectorAll('a.page_post_thumb_wrap');
+  if (!links.length) { return []; }
+
+  var sources = parse.imageLinks(links);
+
+  return sources;
+};
+
+FeedView.prototype.parseDocuments = function (node) {
+  // check if post has any documents
+  var media = node.querySelector('.post_media');
+  if (!media) { return []; }
+
+  // find any "image"-like links
+  var links = media.querySelectorAll('.photo.page_doc_photo_href');
+  if (!links) { return []; }
+
+  var sources = parse.documentLinks(links);
+
+  return sources;
 };
 
 module.exports = FeedView;

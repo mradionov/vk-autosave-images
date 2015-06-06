@@ -156,10 +156,6 @@ PhotoView.prototype.like = function (el) {
   var comments = dom.closest(el, '#pv_comments_data');
   if (!comments) { return handleError('#pv_comments_data not found'); }
 
-  // try to find a link to original image
-  var link = comments.querySelector('#pv_open_original');
-  if (!link) { return handleError('#pv_open_original not found'); }
-
   // extract image uploader url slug
   var authorSlug = '';
   var authorLink = comments.querySelector('#pv_author_name a');
@@ -167,9 +163,16 @@ PhotoView.prototype.like = function (el) {
     authorSlug = authorLink.href.split('/').pop();
   }
 
-  var url = link.href;
+  // try to find a link to original image
+  var link = comments.querySelector('#pv_open_original');
+  if (!link) { return handleError('#pv_open_original not found'); }
 
-  this.saveCallback(url, {
+  var source = {
+    url: link.href,
+    name: link.href.split('/').pop()
+  };
+
+  this.saveCallback(source, {
     authorSlug: authorSlug
   });
 };

@@ -34,11 +34,12 @@ function initialize() {
   });
 }
 
-function onSave(urls, extras) {
+function onSave(sources, extras) {
   // extras would have some extra data coming from views
   extras = extras || {};
-  if (typeof urls === 'string') {
-    urls = [urls];
+
+  if (!Array.isArray(sources)) {
+    sources = [sources];
   }
 
   // grab user options
@@ -52,10 +53,10 @@ function onSave(urls, extras) {
     var datetime = date.asStr();
 
     // iterate all saved urls
-    urls.forEach(function (url, index) {
+    (sources || []).forEach(function (source, index) {
 
-      // create filename for dropbox, it will be an actual vk filename
-      var filename = url.split('/').pop();
+      var filename = source.name,
+          url = source.url;
 
       if (options.datePrefix) {
         // along with date also add index of the file for the right ordering
@@ -72,7 +73,7 @@ function onSave(urls, extras) {
         if (error) { return handleError(url, error); }
 
         // try save an image
-        client.writeFile(filename, arrayBuffer, function(error) {
+        client.writeFile(filename, arrayBuffer, function (error) {
           if (error) { return handleError(url, error); }
         });
 

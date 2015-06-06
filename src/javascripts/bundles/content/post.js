@@ -57,14 +57,6 @@ PostView.prototype.like = function (el) {
   var post = dom.closest(el, '#wl_post');
   if (!post) { return handleError('#wl_post not found'); }
 
-  // ret to find image links by unique selector
-  var linkSelector = '.page_post_sized_thumbs.page_post_sized_full_thumb ' +
-    'a.page_post_thumb_wrap';
-
-  // if there are thumbs, try grab links for them
-  var links = post.querySelectorAll(linkSelector);
-  if (!links) { return handleError(linkSelector + ' 0 length'); }
-
   // get post author url slug
   var authorSlug = '';
   var authorLink = post.querySelector('#wl_head_wrap a.wl_owner_head_name');
@@ -73,24 +65,45 @@ PostView.prototype.like = function (el) {
     authorSlug = authorLink.href.split('/').pop();
   }
 
-  // retrieve urls from image link
-  var urls = [];
-  for (var i = 0, l = links.length; i < l; i++) {
-    var link = links[i];
+  var imageSources = this.parseImages(post);
+  var documentSources = this.parseDocuments(post);
 
-    var url = parse.linkOnClick(link);
-    if (!url) { continue; }
+  var sources = imageSources.concat(documentSources);
 
-    urls.push(url);
-  }
-
-  if (!urls.length) {
+  if (!sources.length) {
     return false;
   }
 
-  this.saveCallback(urls, {
+  this.saveCallback(sources, {
     authorSlug: authorSlug
   });
+};
+
+PostView.prototype.parseImages = function (node) {
+    // ret to find image links by unique selector
+  var linkSelector = '.page_post_sized_thumbs.page_post_sized_full_thumb ' +
+    'a.page_post_thumb_wrap';
+
+  // if there are thumbs, try grab links for them
+  var links = node.querySelectorAll(linkSelector);
+
+  var sources = parse.imageLinks(links);
+
+  return sources;
+};
+
+PostView.prototype.parseDocuments = function (node) {
+  // check if post has any documents
+  var media = node.querySelector('.post_media');
+  if (!media) { return []; }
+
+  // find any "image"-like links
+  var links = media.querySelectorAll('.photo.page_doc_photo_href');
+  if (!links) { return []; }
+
+  var sources = parse.documentLinks(links);
+
+  return sources;
 };
 
 module.exports = PostView;

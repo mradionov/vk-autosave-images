@@ -1,6 +1,6 @@
 {
   "name": "vk-autosave-images",
-  "version": "0.3.0",
+  "version": "0.5.0",
   "description": "chrome extension for vk.com - save images from liked posts to Dropbox",
   "author": "Michael Radionov (https://github.com/mradionov)",
   "repository": {
